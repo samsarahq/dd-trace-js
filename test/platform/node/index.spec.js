@@ -118,6 +118,31 @@ describe('Platform', () => {
       })
     })
 
+    describe('load', () => {
+      let meta
+
+      beforeEach(() => {
+        platform = require('../../../src/platform/node')
+        meta = Object.assign({}, platform._meta)
+      })
+
+      afterEach(() => {
+        platform._meta = meta
+      })
+
+      it('should load metadata about the user module', () => {
+        require('./load/direct')
+
+        expect(platform._meta).to.have.property('service', 'foo')
+      })
+
+      it('should work even in subfolders', () => {
+        require('./load/indirect')
+
+        expect(platform._meta).to.have.property('service', 'foo')
+      })
+    })
+
     describe('request', () => {
       let request
       let log
