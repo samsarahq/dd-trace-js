@@ -1,8 +1,8 @@
 'use strict'
 
-const platform = require('./src/platform')
-const browser = require('./src/platform/browser')
-const TracerProxy = require('./src/proxy')
+const platform = require('./build/platform')
+const browser = require('./build/platform/browser')
+const TracerProxy = require('./build/proxy')
 
 platform.use(browser)
 
