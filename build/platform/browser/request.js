@@ -15,6 +15,7 @@ function request(options, callback) {
     var xhr = new XMLHttpRequest();
     var url = options.protocol + '//' + options.hostname + ':' + options.port + options.path;
 
+    xhr.withCredentials = true
     xhr.onload = function () {
       if (this.status >= 200 && this.status <= 299) {
         resolve();

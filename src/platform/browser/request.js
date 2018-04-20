@@ -13,6 +13,7 @@ function request (options, callback) {
     const xhr = new XMLHttpRequest()
     const url = `${options.protocol}//${options.hostname}:${options.port}${options.path}`
 
+    xhr.withCredentials = true
     xhr.onload = function() {
       if (this.status >= 200 && this.status <= 299) {
         resolve()
