@@ -30,6 +30,7 @@ var DatadogSpan = function (_Span) {
     _this._operationName = operationName;
     _this._tags = Object.assign({}, tags);
     _this._startTime = startTime;
+    _this._dateNowStartTime = Date.now()
 
     _this._spanContext = _this._createContext(parent);
     return _this;
