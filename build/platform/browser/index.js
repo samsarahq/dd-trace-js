@@ -2,7 +2,6 @@
 
 var id = require('./id');
 var now = require('./now');
-var env = require('./env');
 var request = require('./request');
 var context = require('./context');
 var msgpack = require('./msgpack');
@@ -19,7 +18,6 @@ module.exports = {
   },
   id: id,
   now: now,
-  env: env,
   request: request,
   context: context,
   msgpack: msgpack
