@@ -2,8 +2,7 @@
 
 const http = require('http')
 const bodyParser = require('body-parser')
-const msgpack = require('msgpack-lite')
-const codec = msgpack.createCodec({ int64: true })
+const msgpack = require('@msgpack/msgpack')
 const getPort = require('get-port')
 const express = require('express')
 
@@ -17,7 +16,7 @@ module.exports = {
     agent = express()
     agent.use(bodyParser.raw({ type: 'application/msgpack' }))
     agent.use((req, res, next) => {
-      req.body = msgpack.decode(req.body, { codec })
+      req.body = msgpack.decode(req.body, { useBigInt64: true })
       next()
     })
 

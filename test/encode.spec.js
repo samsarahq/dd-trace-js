@@ -1,7 +1,6 @@
 'use strict'
 
-const msgpack = require('msgpack-lite')
-const codec = msgpack.createCodec({ int64: true })
+const msgpack = require('@msgpack/msgpack')
 const Uint64BE = require('int64-buffer').Uint64BE
 
 describe('encode', () => {
@@ -18,10 +17,11 @@ describe('encode', () => {
     }]
 
     const buffer = encode(data)
-    const decoded = msgpack.decode(buffer, { codec })
+    const decoded = msgpack.decode(buffer, { useBigInt64: true })
 
     expect(decoded).to.be.instanceof(Array)
     expect(decoded[0]).to.be.instanceof(Object)
+    expect(typeof decoded[0].id).to.equal('bigint')
     expect(decoded[0].id.toString()).to.equal(data[0].id.toString())
     expect(decoded[0].name).to.equal(data[0].name)
   })
