@@ -3,9 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const getPort = require('get-port')
-const Uint64BE = require('int64-buffer').Uint64BE
-const msgpack = require('msgpack-lite')
-const codec = msgpack.createCodec({ int64: true })
+const msgpack = require('@msgpack/msgpack')
 
 describe('dd-trace', () => {
   let tracer
@@ -41,17 +39,17 @@ describe('dd-trace', () => {
 
     agent.use(bodyParser.raw({ type: 'application/msgpack' }))
     agent.put('/v0.3/traces', (req, res) => {
-      const payload = msgpack.decode(req.body, { codec })
+      const payload = msgpack.decode(req.body, { useBigInt64: true })
 
-      expect(payload[0][0].trace_id).to.be.instanceof(Uint64BE)
+      expect(typeof payload[0][0].trace_id).to.equal('bigint')
       expect(payload[0][0].trace_id.toString()).to.equal(span.context().traceId.toString())
-      expect(payload[0][0].span_id).to.be.instanceof(Uint64BE)
+      expect(typeof payload[0][0].span_id).to.equal('bigint')
       expect(payload[0][0].span_id.toString()).to.equal(span.context().spanId.toString())
       expect(payload[0][0].service).to.equal('test')
       expect(payload[0][0].name).to.equal('hello')
       expect(payload[0][0].resource).to.equal('/hello/:name')
-      expect(payload[0][0].start).to.be.instanceof(Uint64BE)
-      expect(payload[0][0].duration).to.be.instanceof(Uint64BE)
+      expect(typeof payload[0][0].start).to.equal('bigint')
+      expect(typeof payload[0][0].duration).to.equal('bigint')
 
       res.status(200).send('OK')
 
